@@ -222,6 +222,40 @@ in app.component.ts
    Important, All of these, area created by Angular CLI with a scaffolding
    
    `CREATE A NEW COMPONENT` 
+   - in the root of app write
+    ng generate componente-name or ng g component-name
+   - in adition of component we generate scaffolding like directives,services,clases,etc
+   - the new files are in "src/app"
+   - this file has you should know
+    * Imports
+    * Component decorator
+    * Class like a controler we export
+
+    Also an implements
+    export class component-name implements OnInit
+
+ implements is an interface, it say we use a function ngOnInit
+    in this function we put code will be execute 
+ - we use this componente in the html created with this
+ 
+  `use this new component`
+   1. import component code from component you needed
+     in app.component.ts
+     import {nameComponent} from './component-name'
+   2. declare you will use this component, from parent  app.component.html 
+     <app-first-component> </app-first-component>
+
+ 
+ 
+
+
+
+
+
+
+
+
+
    
    
    
