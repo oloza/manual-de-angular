@@ -194,7 +194,144 @@ in app.component.ts
  - a decorate function  -> as component register join  JS & Html
 
  `Component Decorator`
-
+ - its a declaration how will be a component and its parts
+ - its a implementation of software design pattern
+ - extend a function by other function
+ - receive a function as argument and return it with aditional functionality
+ - start with "@" then its name
+ - we decorate a function, a class poperty, a class, etc
+ - look at the first line
+  * import{Component} from '@angluar/core'
+ - Import is carrying the Component Class
+ `what information we append with a Decorator` 
+  -Angular use Decorator to register a component
+  -Add information to recognize by another parts of app
+	@Component({
+	moduleId: module.id,
+	selector: 'test-angular2-app',
+	templateUrl: 'test-angular2.component.html',
+	styleUrls: ['test-angular2.component.css']
+	})
+	
+	- it contain anotations we give "metadata"
+   `moduleId:` for resolve relative Urls.
+   `selector:` its the new tag Name we created and use in HTML
+   `templateUrl:` the HTML file it contain the view code
+   `styleUrls:` its an Array of CSS
+   
+   Important, All of these, area created by Angular CLI with a scaffolding
+   
+   `CREATE A NEW COMPONENT` 
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 
 
