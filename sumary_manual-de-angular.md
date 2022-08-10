@@ -245,8 +245,31 @@ in app.component.ts
    2. declare you will use this component, from parent  app.component.html 
      <app-first-component> </app-first-component>
 	
-	
+ `BASIC MODULES`
+  - its a union among components and other artifacts like directives
+  - its a main element we can organize the code app
+  - instead of put all components code, directives in the main module, its recomendable 
+    have many modules and group them in diferent elements
 
+  `create a module`
+   ng generate module module-name
+
+  - it created inside "src/app" a subfolder with the same name of module
+  - content of name-module.module.ts
+    @NgModule({
+      imports:[],
+      declarations:[]
+    })
+
+  - as you can see we have
+  * imports: imports this module needed
+  * declaration: with components, or artefact this module build
+
+  `Generate a component inside module`
+  - just here all components was create inside main module,
+  - but if we create in a diferet subfolder we will need:
+    ng generate component folder/myComponent
+    
  
  
 
