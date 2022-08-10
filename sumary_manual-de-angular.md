@@ -223,7 +223,7 @@ in app.component.ts
    
    `CREATE A NEW COMPONENT` 
    - in the root of app write
-    ng generate componente-name or ng g component-name
+    ng generate component componente-name or ng g component component-name
    - in adition of component we generate scaffolding like directives,services,clases,etc
    - the new files are in "src/app"
    - this file has you should know
@@ -244,6 +244,8 @@ in app.component.ts
      import {nameComponent} from './component-name'
    2. declare you will use this component, from parent  app.component.html 
      <app-first-component> </app-first-component>
+	
+	
 
  
  
