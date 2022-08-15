@@ -268,10 +268,100 @@ in app.component.ts
   `Generate a component inside module`
   - just here all components was create inside main module,
   - but if we create in a diferet subfolder we will need:
-    ng generate component folder/myComponent
     
+    ng generate component folder-module/name-new-component
+   
+   this generate a subfolder inside module we have specify
+   folder-module
+    name-new-component(folder)   
  
+ `Export module out`
+  - if we want to export to use in another modules we will add information to Decorator module: export array
+  - supose "second-component" we want it will can use from another modules, add component Class name in array "exports"
+
+ @NgModule({imports:[] ,declarations:[],  exports[name-new-component]}) 
+
+ `Use component in other modules`
+ - modify main module to know component in the new module
+ - import entire module we created, because this module contain the component we exported
  
+  import {ModuleName} from './folder-module/new-module.module'
+ - import of our new module will be declarate in "imports" property of main module
+ main module:
+  @NgModule({
+    declarations:[],imports:[BrowserModule,Name-new-module],etc
+  })
+
+  `use component in HTML`
+  finally we use component, we put in root compoment the component selector from new component created
+** ALERT REVIEW MODULE AND COMPONENT CREATED** THIS PART IS SO-SO 
+ 
+ `ANGULAR ESSENTIALS DIRECTIVES`
+ `ngClass Directive`
+ - it allow us modify CSS
+ - from Angular 2 directives are to solve specify needed to manage DOM and others
+ - pay atention, it's not necesary resolve all Class issue with ngClass
+ 
+ `assign CSS class with ngClass`
+  - we can use many values to express classes group 
+  <p [ngClass]= "['negativo','off']"> it can be apply many classes </p>
+  <p [ngClass]= "arrayClases" > it can be apply many classes </p>
+  - in TS
+   clases = ['positivo','si'];
+
+   - a object with properties and values, each prop name is a posible CSS class
+   <li [ngClass]="{positivo:cantidad >0,negativo:cantidad <0, off:desactivado, on:!desactivado}">linea </li>
+  
+  HTML
+  <p>
+    <button
+    [ngClass]="{si:estadoPositivo,no:!estadoPositivo}"
+    (click)="cambiarEstado()"
+    >{{texto}}
+    </button>
+</p>
+  
+  TS
+  texto:string="SI";
+  estadoPositivo:boolean=true;
+  cambiarEstado(){
+    this.texto =(this.estadoPositivo)?"NO":"SI";
+    this.estadoPositivo=!this.estadoPositivo;
+  }
+
+ CSS
+ button {
+    padding: 15px;
+    font-size: 1.2em;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    width: 70px;
+    height: 60px;
+    }
+    .si{
+    background-color: #6c5;
+    }
+    .no{
+    background-color: #933;
+    }
+
+  `ngFor DIRECTIVE`
+   - for loop
+
+  `*ngFor="let pregunta of preguntas"`
+  - `*` it's a nomenclature to indicate us it affect to DOM (insert, managed,delete)
+
+ `loop arrays with objects`
+   <p *ngFor="let objPregunta of preguntasObj">
+    {{objPregunta.pregunta}}:
+
+`to modify we implements interfaces TS`
+ - in this case we use to declare a data type and editor will help us when we write
+ - its recomendable create separate and import in our component
+
+
+  `ngModel DIRECTIVE`
 
 
 
@@ -279,8 +369,6 @@ in app.component.ts
 
 
 
-
-
    
    
    
@@ -303,7 +391,7 @@ in app.component.ts
    
    
    
-   
+  
    
    
    
