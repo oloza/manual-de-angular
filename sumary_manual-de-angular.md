@@ -362,44 +362,98 @@ in app.component.ts
 
 
   `ngModel DIRECTIVE`
+  - Basically is a link between model and view (TS & html)
+   ejm, we have a component
+   export class CuadradoComponent{
+    lado=4;
+   }
+
+   if we want to use "lado" in a input 
+  <input type="number" [ngModel]="lado">
+
+   we are using ngModel directive as a property INPUT field
+
+   `declare ngModel`
+   - we need import "FormsModule" from component we want to use directive
+
+    import { NgModule } from '@angular/core';
+    import { CommonModule } from '@angular/common';
+    import { CuadradoComponent } from './cuadrado/cuadrado.component';
+    `import { FormsModule } from '@angular/forms';` 
+   
+    @NgModule({
+    imports: [
+    CommonModule,
+   `FormsModule`
+    ],
+    declarations: [CuadradoComponent],
+    exports: [CuadradoComponent]
+    })
+    export class FigurasModule { } 
 
 
+    - two important things:
+     1. import FormsModule  from @angular/forms
+     2. declare into array's import
+
+  `link double binding`
+     -we use "banana in a box"
+     <input type ="number" [(ngModel)]="lado">
+    - now if we write in view this travel to model
 
 
-
-
-
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
+  `ngModelChange Event`
+    - it's similar like double binding   
+    - we need a method into component it get de var "$event" 
+    <input type="number" [ngModel]="lado" (ngModelChange)= "cambiarlado=($event)">
   
+  `Binding in detail`
+  `interpolation{{}} in detail`
+  
+  `string interpolation`
+  - it's a form to replace a expression for a value
+   <img src="{{urlImagen}}">
+  - all expression become in string before use it in template
+
+  {{somString}}
+  {{1+1}}
+  {{!boolean}}
+  {{componentMethod()}}
+
+  - Bindings cannot contain assignements
+   {{expr=1}}  error
+  - can't write control sentences if, for etc
+  - dont' call API REST in a expression
+  - be simple
+
+  `binding to properties`
    
    
    
-   
-   
-   
-   
-   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
    
    
    
