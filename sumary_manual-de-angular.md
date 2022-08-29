@@ -407,7 +407,7 @@ in app.component.ts
     - we need a method into component it get de var "$event" 
     <input type="number" [ngModel]="lado" (ngModelChange)= "cambiarlado=($event)">
   
-  `Binding in detail`
+  `Binding in detail`  pag.68
   `interpolation{{}} in detail`
   
   `string interpolation`
@@ -427,15 +427,18 @@ in app.component.ts
   - be simple
 
   `binding to properties`
+   -its for assign a value to an element property
+   -it can be a literal value
+
+   `Component Properties`
+   - components generated with Angular are implemented using a class (POO)
+   - properties of that class (data) are called "component properties"
+   - in this article we also reference a component expresed in a template as html properties(DOM) or in gral component properties.
+
+   
+
    
    
-   
-
-
-
-
-
-
 
 
 
