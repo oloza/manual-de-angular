@@ -435,16 +435,59 @@ in app.component.ts
    - properties of that class (data) are called "component properties"
    - in this article we also reference a component expresed in a template as html properties(DOM) or in gral component properties.
 
+   `properties expressed in a template`
+   - in component's html (template or view) properties are any values we assign by binding
+    ejm
+    normal
+    <img src = "imagen.jpg">
+    <button disabled> im disactivated</button>
    
+   with binding
+   <img [src]="rutaImagen">
+   <button [disabled] ="estadoBoton"> im activate or not </button>
 
-   
-   
+   binding [], values are called from component "rutaImagen" such as "estadoBoton"
+
+   - important to know, when you work with template properties, you're not set html atributes, with [] it becomes in Angular properties.
+
+  `property binding variant`
+   - we can set binding to directives properties
+   <div [ngStyle]="objEstilos">DIV con estilos definidos por Angular </div>
+
+   - also set personalized properties to our components
+    <mi-componente [propiedadPersonalizada]="valorAsignado"></mi-componente>
+    this is a special case, we will see in @Input properties of components
+    -we can create any component propertie
+     parent component-> "valorAsignado"        (review again ñ_ñ both)
+     son component-> "propiedadPersonalizada"
+
+  `one-way bindig`
+
+  - assign a property is dinamic, if changed also change what we binding
+  - property binding is one direction from father to son
+
+  `posible values for property`
+
+  - normally is  binding by component propertie, but we put another TS code
+  - we can bindig to a literal
+ 
+  <img [src]="'ruta.jpg'">
+  in this case ruta.jpg is writed between simple comillas, so is a literal. Angular evaluate it as String
+
+ also we can binding to a method, result of method aply to binding property
+ <p [ngClass] ="obtenerClasess()"> this get a class returned by method </p>
+
+ `avoid lateral effects`
+ - avoid when we evaluate a property value it change component state
+ - ejm
 
 
+ <img [src]="ruta = 'ruta.jpg'">
+ it can't do
+ - pay atention, when we bindig a property by return value method, Angular doesn't show errors if we modify compoment state
+ <img [src]="calculaSrc()">
 
-
-
-
+ `Binding to properties Vs String interpolation`
 
 
 
