@@ -488,79 +488,42 @@ in app.component.ts
  <img [src]="calculaSrc()">
 
  `Binding to properties Vs String interpolation`
+its similar but different lets see
 
 
+first, it use interpolation asign to src value inside {{}}
+second, it bind to property src with urlImagen between "" which one is the correct?
+other Example
 
+<li [class]="valorClass">item 1
+item 2
+<p>{{texto}}</p>
+<p [innerHTML]="texto"></p>
+- first paragraph we put text by interpolation
+- second paragraph is the same text but by innerHTML component property
 
+`interpolation with string`
+- pay atention there is no problem use each one but you define with your team
+- advice is use string interpolation fro string text
 
+`use property binding with diferent values to strings`
+example 
+button property "disable" should be a binding property to boolean value 
 
+correct way
+<button [disabled]="activo">Clic aquí</button>
 
+incorrect,  result maybe is not we want
+<button disabled="{{activo}}">Clic aquí</button>
 
+{{activo}} interpolate by "false" word, disabled="false", in HTML si similar to putt disabled without value
+ 
+ - if the value is not a string use property binding
 
+<div [ngStyle]="estilo">Test de estilo</div>
+depure strings in Angular templates
+ 
 
-
-
-   
-   
-   
-   
-   
-   
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
  
  
  
