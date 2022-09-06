@@ -521,10 +521,90 @@ incorrect,  result maybe is not we want
  - if the value is not a string use property binding
 
 <div [ngStyle]="estilo">Test de estilo</div>
-depure strings in Angular templates
- 
 
+`depure strings in Angular templates`
+- if we use property binding also string interpolation, there is a diference with depure before.
+
+ cadenaXSS='this is a <script>alert("test")</script> con XSS'
+
+there is a problem with code injection, we use instead of
+<div>{{ cadenaXSS }}</div>
+<div [innerHTML]="cadenaXSS"></div>
+
+- Angular make a healt of string, disabled Script label,
  
+ " this is a <script>alert("test")</script> con XSS Esto es un alert("test") con XSS "
+
+ in this case script is a text and not a label
+
+`Binding to atribute`
+
+ - its easy to implement.
+ - we start what is attribute and property
+
+`what is attribute in Angular`
+- we define it in Angular context, ok let's go
+- many times we use "atribute" as a sinonomous of "property"
+- "id" attribute in HTML is property "id" of DOM, but there is attributes has not direct map to DOM like "colspan"
+- there are also HTML attributes that map to DOM properties than are not called and executed in the same way as "class" "classList" 
+- when we do property binding we have elements properties, but we don't have attributes
+- we can do this
+
+ <div [id]="idDivision">Test de binding a propiedad</div>
+ but not this
+ <td [colspan]="1 + 1">test</td>
+- also, we can't do this neither
+<td colspan="{{1 + 1}}">test</td>
+
+- we use both(SI and PB ) only properties defined in Angular and doesn't in HTML attributes.
+
+`syntaxis to bindig an attribute` (pg.82)
+- we use "attr" then attribute name betwen brackets[]
+<td [attr.colspan]="1 + 1">test</td>
+
+- to bind "data attribute"
+ <div data-cliente="desa-web"> desa web</div>
+- in TS
+  cliente={
+    name:'DevelopmentZone'
+  }
+
+  <div [attr.data-cliente]="cliente.name">({cliente.nombre}) </div>
+  `complete Example`
+- this example show how bind to attribute
+- its a componente that show us polygon dots 
+  name|sides|dots
+  square|4|[10,5|15,5|15,10|10,10]
+- in component we create a obj
+  
+  poligono = {
+    nombre: 'cuadrado',
+    puntos: [
+    {
+    x: 10,
+    y: 5
+    },
+    {
+    x: 15,
+    y: 5
+    }]}
+  - in html , here is the key [attr.]
+  <th [attr.colspan]="poligono.puntos.length">Puntos</th>
+
+ `Template statements`
+ - sentece to execute as response an event its called "statement"
+ - its normal that statement run a method, like press a button
+ - but also contain the sentence into template
+ <div (click)="cliente.nombre = 'DesarrolloWeb.com'">Marcar Cliente</div>
+ - statement is declared between quotation marks
+ - statements can modify components properties
+ - its not allowed
+  * new operator
+  * increase decrease (++ --)
+  * +=
+  * pipes
+
+`context statements`  (pg.86)
  
  
  
