@@ -605,20 +605,85 @@ there is a problem with code injection, we use instead of
   * pipes
 
 `context statements`  (pg.86)
+ - this object $event give us info about event created
+ <button (click)="procesarEvento($event)">Transmito el objeto evento</button> 
+ - $event is important because allow send util data
+ - advice to use statements
+  * define statement in compoment method
+
+  `COMUNICATION BETWEEN COMPONENTS with @Input`
+  - we use @Input decorator
  
+  - father to son
+
+  * in father component TS put dato to send son
+
+   cliente={
+    nombre:"pinche",
+    cif:"123",
+    direccion:"adress of pinche"
+    }
+   * in father view html put call son
+    <app-comunication-son
+    [nombre]="cliente.nombre"
+    [cif]="cliente.cif"
+    [direccion]="cliente.direccion"
+    >
+    </app-comunication-son>
+
+    <button (click)="cliente.cif='ESB9922'">Cambiar CIF</button>
+
+
+    
+    * in son component use import { Component, OnInit, Input } from '@angular/core'; and put this in class 
+
+    @Input()
+    nombre = 'DesarrolloWeb.com';
+    @Input()
+    cif!: string;
+    @Input()
+    direccion!: string;
  
+   * in view what data we render
+     <p>
+        son_Nombre: {{nombre}}
+        <br>
+        son_Cif: {{cif}}
+        <br>
+        son_direccion: {{direccion}}
+    </p> 
  
+  `personalized event with @Output` (pg.92)
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
+  - son to father
+
+  * in son component import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+  mensaje:string="";
+  
+  @Output()
+  propagar = new EventEmitter<string>();  
+  
+  onPropagar(){
+    this.propagar.emit(this.mensaje);
+  }
+  * in son view
+  <p>
+    <input type="text" [(ngModel)]="mensaje">
+    <button (click)="onPropagar()">Propagar</button>
+  </p>
+  
+  * in father component 
+  procesaPropagar(mensaje:any) {
+    console.log(mensaje);
+    }
+
+ * in father view, put call to son comp
+  <app-son-to-father-son
+      (propagar)="procesaPropagar($event)"
+  >
+  </app-son-to-father-son>
+
+ `ANGULAR SERVICES`
  
  
  
