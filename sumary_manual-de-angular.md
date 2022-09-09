@@ -684,24 +684,157 @@ there is a problem with code injection, we use instead of
   </app-son-to-father-son>
 
  `ANGULAR SERVICES`
+ - services are importat in Angular framework
+ - Basically a services is a data provider, implements logic to access it
+ - services will be use by components
+
+ `how to create a services`
+ - ng generate service name_service
+ - many developers create it inside shared module it can be named "commmon" "shared" 
+ * ng g service clientes
+
  
+ `append services to module`
+ - append this services to module
+  * import { ClientesService } from './clientes.service';
  
- 
+ - after you can use this service in any component belong to this module
+ - @NgModule in "providers" array (pg.99)
+   * providers: [ClientesService],
 
+- code created
 
+import { Injectable } from '@angular/core';
 
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ClientesService {
 
+    constructor() { }
+  }
 
+- @injectable, indicate the class would need dependencies by injection dependencies
+- injection dependencies is a design pattern
 
+`how inject services dependencies`
+- implements by component constructor, and we need import:
+  * import { ClientesService } from '../clientes.service';
+  * constructor(public clientesService:ClientesService);   //its important access modifier, public|private
 
+  * export class ListadoClientesComponent {
+  constructor(public clientesService: ClientesService) { }
+  }
+  
+  its equivalent to:
+  
+  export class ListadoClientesComponent {
+      clientesService: ClientesService;
+      constructor(clientesService: ClientesService) {
+      this.clientesService = clientesService;
+    }
+  }
 
+ * also use this on ngOnInit(), to load values to init components properties
 
+`USE CLASSES AND INTERFACES IN ANGULAR SERVICES`
+- in services we can start with type classes and interfaces
+- helps in development time
+`create a class to define your object types`
 
+  class Cliente {
+    nombre: String;
+    cif: String;
+    direccion: String;
+    creado: Date;
+  }
 
+`create an interface to define your object types`
+ - its similar to class
+ interface Cliente {
+    nombre: String;
+    cif: String;
+    direccion: String;
+    creado: Date;
+  }
 
+`class o interface?`
+- with class we need to create it with new and we can use constructor to assign values
+- with interface we receive data from JSON from REST API(recomended)
+- with interfaces you can create objects
 
+`define data model in external file`
+- save in external file TS
 
+export interface Cliente {
+  nombre: String;
+  cif: String;
+  direccion: String;
+  creado: Date;
+}
 
+`PRACTICE MODULES,COMPONENTS AND SERVICES`
+* ng new clientes-app
+* cd clientes app
+* ng serve -o
+
+`create clientes module`
+* ng generate module clientes
+
+`define data modules`
+export interface Cliente {
+id: number;
+nombre: string;
+cif: string;
+direccion: string;
+grupo: number;
+}
+
+export interface Grupo {
+id: number;
+nombre: string;
+}
+
+`create a Clientes services`
+- its recomendable create a service where we centralize aplication logic
+* ng generate service clientes/clientes
+- in this service we need import data model, interface
+* import{Cliente,Grupo} from './cliente.model'
+
+--
+import { Injectable } from '@angular/core'; import { Cliente, Grupo } from './cliente.model';
+@Injectable()
+export class ClientesService { private clientes: Cliente[]; private grupos: Grupo[];
+constructor() {  this.grupos = [{id: 0,nombre: 'Sin definir'},{id: 1,nombre: 'Activos'},{id: 2,nombre: 'Inactivos'},{id: 3,nombre: 'Deudores'},];
+this.clientes = [];}
+getGrupos() {return this.grupos;}
+getClientes() {return this.clientes;}
+agregarCliente(cliente: Cliente) {this.clientes.push(cliente);}
+nuevoCliente(): Cliente {return {id: this.clientes.length,nombre: '',cif: '',direccion: '',grupo: 0};}}
+--
+
+ 1. Las dos propiedades del servicio contienen los datos que va a mantener. Sin embargo,
+las hemos definido como privadas, de modo que no se puedan tocar directamente y
+tengamos que usar los métodos del servicio creados para su acceso.
+2. Los grupos los construyes con un literal en el constructor. Generalmente los traerías de
+algún servicio REST o algo parecido, pero de momento está bien para empezar.
+3. Agregar un cliente es un simple "push" al array de clientes, de un cliente recibido por
+parámetro.
+4. Crear un nuevo cliente es simplemente devolver un nuevo objeto, que tiene que respetar
+la interfaz, ya que en la función nuevoCliente() se está especificando que el valor de
+devolución será un objeto del tipo Cliente.
+5. Fíjate que en general está todo tipado, tarea opcional pero siempre útil.
+
+`declare service to use in components`
+- to use services is necesary declare it in "module" which will use it
+- in clientes.module.ts import
+ * import {ClientesService} from './clientes.service'
+ * providers:[ClientesService] in @NgModule
+
+ `create component to create a new Cliente`
+ - create first component
+ * ng g component clientes/altaCliente
+ - add service to component
 
 
 
