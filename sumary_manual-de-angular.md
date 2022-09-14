@@ -831,18 +831,274 @@ devolución será un objeto del tipo Cliente.
  * import {ClientesService} from './clientes.service'
  * providers:[ClientesService] in @NgModule
 
- `create component to create a new Cliente`
+ `create component to create a new Cliente` (pg.113)
  - create first component
  * ng g component clientes/altaCliente
  - add service to component
+ - first import service into component
+ * import { ClientesService } from './../clientes.service';
+ - inject services to component
+ * constructor(private clientesService:ClientesService) { }
+
+`append data model`
+ * import{Cliente,Grupo} from './../cliente.model'
+
+ - complete code alta-cliente-component.ts
+import { Component, OnInit } from '@angular/core'; import {ClientesService} from './../clientes.service'; import{Cliente,Grupo} from './../cliente.model'
+@Component({  selector: 'app-alta-cliente',  templateUrl: './alta-cliente.component.html',  styleUrls: ['./alta-cliente.component.css']})
+export class AltaClienteComponent implements OnInit {
+  cliente!:Cliente; grupos!:Grupo[];
+  constructor(private clientesService:ClientesService) { }
+  ngOnInit(): void {
+    this.cliente=this.clientesService.nuevoCliente();  this.grupos=this.clientesService.getGrupos();
+  }
+  nuevoCliente():void{
+    this.clientesService.agregarCliente(this.cliente); this.cliente=this.clientesService.nuevoCliente();
+  }
+}
+
+1. El componente declara un par de propiedades, el cliente y el array de grupos.
+2. En el constructor, que se ejecuta lo primero, conseguimos una instancia del servicio de
+clientes, mediante la inyección de dependencias.
+3. Posteriormente se ejecuta ngOnInit(). En este punto ya se ha recibido el servicio de
+clientes, por lo que lo puedo usar para generar los valores que necesito en las
+propiedades del componente.
+4. El método nuevoCliente() es el que se ejecutará cuando, desde el formulario de alta, se
+produzca el envío de datos. En este código usamos el servicio clientesService, para
+agregar el cliente y generar un cliente nuevo, para que el usuario pueda seguir dando de
+alta clientes sin machacar los clientes anteriormente creados.
+
+`component Template form hire Client`
+- declare in module we use ngModel 
+- in clientes.module.ts
+* import {FormsModule} from '@angular/forms';
+* imports: [
+    CommonModule,
+    FormsModule
+  ] 
+- in template html alta-cliente.component.html
+<h2>Alta cliente</h2><p><span>Nombre:</span><input type="text" [(ngModel)]="cliente.nombre"></p>
+<p><span>CIF:</span><input type="text" [(ngModel)]="cliente.cif"></p>
+<p><span>Dirección:</span><input type="text" [(ngModel)]="cliente.direccion"></p>
+<p><span>Grupo:</span><select [(ngModel)]="cliente.grupo"><option *ngFor="let grupo of grupos" value="{{grupo.id}}">{{grupo.nombre}}</option></select></p>
+<p><button (click)="this.nuevoCliente()">Guardar</button></p>
+
+`Use hire Client Component`
+- we need use cliente-component from root-component
+1. in decorate @NgModule of clientes.module.ts append in export which component we want to use from another modules 
+exports:[
+    AltaClienteComponent
+  ]
+2. import in root module  app.module.ts
+* import {ClientesModule} from './clientes/clientes.module'
+* imports: [ BrowserModule,  ClientesModule]
+- to use in app.component.html
+* <app-alta-cliente></app-alta-cliente>
+
+-create component listado-cliente
+* ng g component clientes/listadoClientes
+
+- in listado-clientes.component.ts
+* import {Cliente,Grupo} from './../cliente.model';
+* import {ClientesService} from './../clientes.service';
+
+- inject services in constructor
+* constructor(private clientesService:ClientesService) { }
+*   clientes!:Cliente[];  // as property
+
+- in ngOnInit
+* this.clientes = this.clientesService.getClientes();
+
+-in Html
+<h4>Clie list</h4> <div *ngIf="! clientes.length">there are not clients yet</div>
+<div>
+    <article *ngFor="let cliente of clientes">
+        <span>{{cliente.nombre}}</span>         <span>{{cliente.cif}}</span>         <span>{{cliente.direccion}}</span>        <span>{{cliente.grupo}}</span>
+    </article>
+</div>
+
+- use list component 
+* in "clientes.module.ts" in decorate add export
+* exports:[ AltaClienteComponent, ListadoClientesComponent]
+
+- in template root "app.component.html"
+* <app-listado-clientes></app-listado-clientes>
+
+-that's all folks!!
+
+`OBSERVABLES IN ANGULAR`
+- we talk about observables, reactive programing and RxJS
+- observables optimize app and rendimiento
+- "why" obervables
+- provide an automatic update from source data
+
+`reactive programing`
+- in tradicional prog  sentences execute one by one
+  let a=1; let b=3; let res=a+b;  //res is 4
+  a=7; //asign other value to "a" but doesn't change "res"
+- in reactive prog the value "res" also will change
+
+`reactive prog and data flow`
+- use constant flow data
+- flow with asyncronous data
+- we can create flows(streams) from any thing: var value along time, clics over button, change data structure and, get JSON from server and so.
+- it provide tools to filter streams, combine, create streams from another streams, etc
+- and final goal, rective programing trigger diferent events about flows:
+  * get interesting stuff into flow
+  * get an error in stream
+  * ending of stream
+
+`observables and reactive programing`
+- observable pattern is an implementation of reactive programing
+- produce events and use in many ways
+- main components of this pattern
+* observable: is what we need to see look, call http, form , data ware
+  we can subscribe to events 
+* observer: implements by callbacks collections, 
+* subject: events emiter.
+
+- there are many libraries to implements reactive programing like RxJS
+
+`What is RxJS` (pg.124)
+- Reactive Extensions (Rx) is made for Microsoft
+- RxJS is an implementation in JS
+- RxJS createa streams and managed
+
+`practice observables`
+  subject,
+  observable,
+  subscription
+- we use previos example
+
+- client services use "subject"
+- in "clientes.service.ts"
+
+* import {Observable,Subject} from 'rxjs';
+* private clientes$=new Subject<Cliente[]>();  //its normall subjects endind with "$"
+
+- send events using subject
+* agregarCliente(cliente: Cliente) {
+this.clientes.push(cliente);
+this.clientes$.next(this.clientes);
+}
+ event to create is "next" 
+
+- generate observable, is who use event from subject and is readOnly.
+- by observable all components will know when data ware has modified
+
+* getClientes$():Observable<Cliente[]>{
+  return this.clientes$.asObservable();
+}
+
+`Observable consumption`
+- in Any component we needed to pay atention we use this observable
+* in "listado-clientes.component.ts"
+* import {Observable} from 'rxjs'
+* clientes$!:Observable<Cliente[]>
+
+- create subscription to events
+* one place to generate it is in ngOnInit()
+
+`delete subscription to observable`
+- by one hand with routing, when one component with route cross to another
+- ngOnDestroy() own life cicle of component execute in the finish
+* import { Component, OnInit, OnDestroy} from '@angular/core';
+* export class MiComponent implements OnInit, OnDestroy {
+    ngOnInit() {
+    // acciones de inicialización
+  }
+
+    ngOnDestroy() {
+    // acciones de destrucción
+    }
+  }
+1. import subscription
+  * import { Subscription } from 'rxjs/Subscription';
+2. declare subsription as component property
+  * clientesSubscription!: Subscription;
+3. save when it create and asign when it subscribe
+  ngOnInit(): void {
+    this.clientes$ = this.clientesService.getClientes$();
+    this.clientesSubscription = this.clientes$.subscribe(clientes => this.clientes = clientes);
+
+4. delete subscription
+  ngOnDestroy() {
+    this.clientesSubscription.unsubscribe();
+    }
+
+`PIPES IN ANGULAR`
+- transform data
+- a pipe is util to debug object like "json"
+* <pre>{{users | json}} </pre>
+- this pipe called "date"
+- in template
+* <p>hoy es: {{today|date:"dd/MM/yyyy"}}</p>
+- we can give parameter after pipe ":"
+
+- `create own pipes`
+* ng generate pipe nombre
+ import { MyPipePipe } from './my-pipe.pipe';
+ 
+ declarations: [...
+    UsarPipesComponent,
+    MyPipePipe ...]
+ * its great!!
+
+`ROUTING SYSTEM`
+- its about SPA
+- in old pages we have diferent urls with own html
+- in Angular we have only index.html with a component in Body and all pages will show in this page
+- there are internal routes "virtual"
+- we will see:
+  * route module system: called RouterModule
+  * aplication routes: its a array list with routes
+  * navegation links:
+  * container: all templates of each routes, each template is a component
+- create new project
+1. in main module imports
+   import { Routes, RouterModule } from '@angular/router';  
+2. create routes array, previously components already created
+  const rutas: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'contacto', component: ContactoComponent }
+  ]; 
+3. declare routing system in @NgModule
+
+    imports: [
+    BrowserModule,
+    RouterModule.forRoot(rutas)
+    ],
+4. define in main template
+  <nav>
+    <a routerLink="/">Home</a> |
+    <a routerLink="/contacto">Contacto</a> |
+  </nav>
+  very important is add router-outlet, its a directive
+  <router-outlet></router-outlet>
+
+`show active rute`
+- routerLinkActive directive
+- allow us aply a class dinamicly
 
 
+`declare rute use parameters`
+- declare rutes
+ {path: 'camino/:parametro', component: ParametroComponent }
+ * example.com/camino/cualquier_cosa
+ * example.com/camino/1
 
+ { path: 'coches/:marca/:modelo', component: CochesComponent }
+ * example.com/coches/toyota/ipsun
+ * example.com/coches/nissan/patrol
 
+`generate links to routes sending parameters`
+ <a routerLink="/coches/seat/ibiza">Seat Ibiza</a>
+ 
+ <a [routerLink]="['/coches', 'ford', 'focus']">Ford Focus</a>
+ 
+ <a [routerLink]="['/coches', miMarca, miModelo]">Ford Focus</a>
 
-
-
-
+ `the end`
 
 
 
